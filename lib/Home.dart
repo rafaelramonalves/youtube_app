@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:youtubeapp/telas/Biblioteca.dart';
+import 'package:youtubeapp/telas/EmAlta.dart';
+import 'package:youtubeapp/telas/Inicio.dart';
+import 'package:youtubeapp/telas/Inscricao.dart';
 
-import 'Telas/Biblioteca.dart';
-import 'Telas/EmAlta.dart';
-import 'Telas/Inicio.dart';
-import 'Telas/Inscricao.dart';
+
+import 'CustomSearchDelegate.dart';
+
 
 class Home extends StatefulWidget {
   @override
@@ -14,12 +17,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   //Indice de navegação da buttomBar
   int _indiceAtual = 0;
+  String resultado = "";
+
   @override
   Widget build(BuildContext context) {
-
     //Lista de telas que serão chamada no buttonNavigator
     List<Widget> telas =[
-      Inicio(),
+      Inicio(resultado),
       EmAlta(),
       Inscricao(),
       Biblioteca(),
@@ -48,16 +52,10 @@ class _HomeState extends State<Home> {
         ),
         actions: <Widget>[
           //Icones com ações
-          IconButton(
+        /*
+        IconButton(
             iconSize: 30,
             icon: Icon(Icons.videocam),
-            onPressed: (){
-
-            },
-          ),
-          IconButton(
-            iconSize: 30,
-            icon: Icon(Icons.search),
             onPressed: (){
 
             },
@@ -69,6 +67,19 @@ class _HomeState extends State<Home> {
 
             },
           )
+          */
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () async{
+            //Exibir barra de pesquisa
+            String res = await showSearch( //Receber a query digitada
+                context: context,
+                delegate: CustomSearchDelegate());
+            setState(() {
+              resultado = res;
+            });
+          },
+        )
         ],
       ),
       body:  Container(
